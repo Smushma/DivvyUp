@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "303302643943",
+    "firebase_url": "https://divvyup-79f8c.firebaseio.com",
+    "project_id": "divvyup-79f8c",
+    "storage_bucket": "divvyup-79f8c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:303302643943:android:bffc0d86cce60c46",
+        "android_client_info": {
+          "package_name": "com.kevlong.divvyup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "303302643943-l6cf4okdcc3f5cgdc4651dpgii7ivkh6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kevlong.divvyup",
+            "certificate_hash": "31dab2592dbde14d572eb79f35f56e0d301e63aa"
+          }
+        },
+        {
+          "client_id": "303302643943-boag8v6nibn75kj3vaka2s02r1v7k7jo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBo101LNDwRQJ_bdcl8AZ2LZdyZ3MuBb7Q"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "303302643943-boag8v6nibn75kj3vaka2s02r1v7k7jo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
