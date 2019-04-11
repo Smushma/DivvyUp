@@ -43,22 +43,28 @@ public class PasswordResetActivity extends AppCompatActivity {
         resetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBarPasswordReset.setVisibility(View.VISIBLE);
-                firebaseAuth.sendPasswordResetEmail(emailPasswordReset.getText().toString())
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                progressBarPasswordReset.setVisibility(View.GONE);
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(PasswordResetActivity.this,
-                                            "Request sent to your email", Toast.LENGTH_LONG).show();
+                if (emailPasswordReset.getText().toString().isEmpty()) { //Check for empty fields
+                    Toast.makeText(PasswordResetActivity.this, "Please enter a valid email",
+                            Toast.LENGTH_LONG).show();
+                }
+                else {
+                    progressBarPasswordReset.setVisibility(View.VISIBLE);
+                    firebaseAuth.sendPasswordResetEmail(emailPasswordReset.getText().toString())
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    progressBarPasswordReset.setVisibility(View.GONE);
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(PasswordResetActivity.this,
+                                                "Request sent to your email", Toast.LENGTH_LONG).show();
+                                    }
+                                    else {
+                                        Toast.makeText(PasswordResetActivity.this,
+                                                task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                    }
                                 }
-                                else {
-                                    Toast.makeText(PasswordResetActivity.this,
-                                            task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                                }
-                            }
-                        });
+                            });
+                }
             }
         });
     }

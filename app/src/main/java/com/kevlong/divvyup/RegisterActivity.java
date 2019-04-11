@@ -46,37 +46,44 @@ public class RegisterActivity extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBarRegister.setVisibility(View.VISIBLE); //Progressbar UI
-                firebaseAuth.createUserWithEmailAndPassword(emailRegister.getText().toString(),
-                        passwordRegister.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressBarRegister.setVisibility(View.GONE); //Progressbar UI
-                        if (task.isSuccessful()) {
-                            firebaseAuth.getCurrentUser().sendEmailVerification()
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                Toast.makeText(RegisterActivity.this, "Registered successfully", //Successful registration
-                                                        Toast.LENGTH_LONG).show();
-                                                emailRegister.setText(""); //Clear fields upon successful registration
-                                                passwordRegister.setText("");
+                if (emailRegister.getText().toString().isEmpty() && passwordRegister.getText().toString().isEmpty()) { //Check for empty fields
+                    Toast.makeText(RegisterActivity.this, "Please fill out the fields with valid input",
+                            Toast.LENGTH_LONG).show();
+                }
+                else {
+                    progressBarRegister.setVisibility(View.VISIBLE); //Progressbar UI
+                    firebaseAuth.createUserWithEmailAndPassword(emailRegister.getText().toString(),
+                            passwordRegister.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            progressBarRegister.setVisibility(View.GONE); //Progressbar UI
+                            if (task.isSuccessful()) {
+                                firebaseAuth.getCurrentUser().sendEmailVerification()
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    Toast.makeText(RegisterActivity.this, "Registered successfully", //Successful registration
+                                                            Toast.LENGTH_LONG).show();
+                                                    emailRegister.setText(""); //Clear fields upon successful registration
+                                                    passwordRegister.setText("");
+                                                }
+                                                else {
+                                                    Toast.makeText(RegisterActivity.this, task.getException().getMessage(), //Error registering
+                                                            Toast.LENGTH_LONG).show();
+                                                }
                                             }
-                                            else {
-                                                Toast.makeText(RegisterActivity.this, task.getException().getMessage(), //Error registering
-                                                        Toast.LENGTH_LONG).show();
-                                            }
-                                        }
-                                    });
+                                        });
 
+                            }
+                            else {
+                                Toast.makeText(RegisterActivity.this, task.getException().getMessage(), //Error registering
+                                        Toast.LENGTH_LONG).show();
+                            }
                         }
-                        else {
-                            Toast.makeText(RegisterActivity.this, task.getException().getMessage(), //Error registering
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
+                    });
+                }
+
             }
         });
     }

@@ -50,28 +50,34 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBarLogin.setVisibility(View.VISIBLE); //Progressbar UI
-                firebaseAuth.signInWithEmailAndPassword(emailLogin.getText().toString(),
-                        passwordLogin.getText().toString())
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                progressBarLogin.setVisibility(View.GONE); //Progressbar UI
-                                if (task.isSuccessful()) {
-                                    if (firebaseAuth.getCurrentUser().isEmailVerified()) { //VERIFY USER EMAIL BEFORE THEY CAN LOGIN
-                                        startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
+                if (emailLogin.getText().toString().isEmpty() && passwordLogin.getText().toString().isEmpty()) { //Check for empty fields
+                    Toast.makeText(LoginActivity.this, "Please fill out the fields with valid input",
+                            Toast.LENGTH_LONG).show();
+                }
+                else {
+                    progressBarLogin.setVisibility(View.VISIBLE); //Progressbar UI
+                    firebaseAuth.signInWithEmailAndPassword(emailLogin.getText().toString(),
+                            passwordLogin.getText().toString())
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    progressBarLogin.setVisibility(View.GONE); //Progressbar UI
+                                    if (task.isSuccessful()) {
+                                        if (firebaseAuth.getCurrentUser().isEmailVerified()) { //VERIFY USER EMAIL BEFORE THEY CAN LOGIN
+                                            startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
+                                        }
+                                        else {
+                                            Toast.makeText(LoginActivity.this, "Please verify your email address",
+                                                    Toast.LENGTH_LONG).show();
+                                        }
                                     }
                                     else {
-                                        Toast.makeText(LoginActivity.this, "Please verify your email address",
+                                        Toast.makeText(LoginActivity.this, task.getException().getMessage(),
                                                 Toast.LENGTH_LONG).show();
                                     }
                                 }
-                                else {
-                                    Toast.makeText(LoginActivity.this, task.getException().getMessage(),
-                                            Toast.LENGTH_LONG).show();
-                                }
-                            }
-                        });
+                            });
+                }
             }
         });
 
